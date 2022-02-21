@@ -1,0 +1,31 @@
+version: "3.3"
+services:
+    backend_dev:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile_dev
+        ports:
+            - "3001:3001"
+        environment:
+            LD_LIBRARY_PATH: "/opt/oracle/instantclient_19_10"
+            WALLET: "/app/oracle/wallet"
+            BACKEND_PORT: "3001"
+        volumes:
+            - "./backend:/app"
+            - "/app/node_modules"
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        image: backend:dev
+        container_name: reddit_backend_dev
+    frontend_dev:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile_dev
+        ports:
+            - "8002:8002"
+        volumes:
+            - "./frontend:/app:cached"
+            - "/app/node_modules"
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        image: frontend:dev
+        container_name: reddit_frontend_dev

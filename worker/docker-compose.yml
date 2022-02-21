@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+    worker:
+        build:
+            context: .
+        ports:
+            - "3002:3002"
+        volumes:
+            - "/home/ubuntu/reddit/worker:/app"
+            - "/app/node_modules"
+        image: worker:dev

@@ -1,0 +1,30 @@
+version: "3.3"
+services:
+    backend:
+        build:
+            context: ./backend
+            dockerfile: Dockerfile_prod
+        ports:
+            - "127.0.0.1:3000:3000"
+        environment:
+            LD_LIBRARY_PATH: "/opt/oracle/instantclient_19_10"
+            WALLET: "/app/oracle/wallet"
+            BACKEND_PORT: "3000"
+        volumes:
+            - "./backend:/app"
+            - "/app/node_modules"
+            - "/var/run/docker.sock:/var/run/docker.sock"
+        image: backend:latest
+        container_name: reddit_backend_prod
+    webserver:
+        build:
+            context: ./frontend
+            dockerfile: Dockerfile_prod
+        ports:
+            - "80:80"
+        links:
+            - backend
+        volumes:
+            - "./nginx:/etc/nginx/conf.d"
+        image: webserver:latest
+        container_name: reddit_webserver_prod

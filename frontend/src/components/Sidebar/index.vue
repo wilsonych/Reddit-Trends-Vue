@@ -25,7 +25,7 @@
 
         <hr class="sidebar-divider my-0" />
         <div class="sidebar-heading">Main</div>
-        <Nav text="Dashboard" target="/" icon="fa-home" />
+        <Nav text="Dashboard" target="/dashboard" icon="fa-home" />
         <Nav text="Reddit Post" target="/post" icon="fa-mail-bulk" />
         <Nav text="Symbol Trend" target="/symbol" icon="fa-poll-h" />
 

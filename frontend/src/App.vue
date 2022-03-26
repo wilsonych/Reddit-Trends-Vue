@@ -1,6 +1,6 @@
 <template>
     <div id="wrapper">
-        <SideBar v-bind:class="{ toggled: isActive }" v-if="$route.name!='Home'" />
+        <SideBar v-bind:class="{ toggled: isActive }" v-if="$route.name!='Index'" />
         <Dialog />
         <router-view />
     </div>

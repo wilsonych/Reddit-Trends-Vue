@@ -17,6 +17,7 @@ const knex = require("knex")({
         password: process.env.DATABASEPASS,
         requestTimeout: 100,
         connectString: process.env.CONNNETSTRING,
+        database: "ADMIN",
     },
     fetchAsString: ["number", "clob"],
 });
@@ -41,6 +42,6 @@ async function initOracleDB() {
     }
 }
 
-initOracleDB();
+//initOracleDB();
 
 module.exports = knex;

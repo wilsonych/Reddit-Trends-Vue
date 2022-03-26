@@ -1,5 +1,6 @@
 const knex = require("knexFile");
 const verifier = require("lib/verifier");
+const moment = require("moment")
 
 const THREAD = "THREAD";
 const THREAD_STAT = "THREAD_STAT";
@@ -15,12 +16,18 @@ const postController = {
         threadsStat: saveThreadsStat,
         threads: saveThreads,
     },
+    public:publicTrend
 };
+
+function dayFormat(date) {
+    const duration = moment.duration(30, "minutes")
+    return moment(Math.ceil((+date) / (+duration)) * (+duration)).valueOf()
+}
 
 function getQueryFromReq(req) {
     const forum = req.query.forum ? { forum: req.query.forum } : {};
-    const start = req.query.start || 0;
-    const end = req.query.end || Date.now();
+    const start = dayFormat(req.query.start || 0);
+    const end = dayFormat(req.query.end || Date.now());
     const limit = req.query.limit || 2000;
     const minVote = req.query.minVote || 50;
     const minComment = req.query.minComment || 50;
@@ -71,6 +78,18 @@ async function getLatestThreadsStat(req) {
 async function getThreadsStat(req) {
     const { forum, minComment, minVote, limit, start, end } = getQueryFromReq(req);
     return knex
+        .select(`${THREAD_STAT}.*`, `${THREAD}.title`)
+        .from(THREAD_STAT)
+        .join(THREAD, `${THREAD_STAT}.id`, "=", `${THREAD}.id`)
+        .limit(limit)
+        .where(forum)
+        .andWhere("vote", ">", minVote)
+        .andWhere("comment", ">", minComment)
+        .whereBetween("updated", [start, end])
+        .orderBy("updated", "desc");
+    /** 
+     * 
+    return knex
         .select("*")
         .from(THREAD_STAT)
         .limit(limit)
@@ -78,7 +97,7 @@ async function getThreadsStat(req) {
         .andWhere("vote", ">", minVote)
         .andWhere("comment", ">", minComment)
         .whereBetween("updated", [start, end])
-        .orderBy("updated", "desc");
+        .orderBy("updated", "desc");*/
 }
 
 /**
@@ -116,6 +135,19 @@ async function saveThreads(req) {
             console.log(err);
             return err;
         });
+}
+
+async function publicTrend(req, res) {
+    const result = await knex
+        .select(`${THREAD_STAT}.*`, `${THREAD}.title`)
+        .from(THREAD_STAT)
+        .join(THREAD, `${THREAD_STAT}.id`, "=", `${THREAD}.id`)
+        .limit(1000)
+        .where("vote", ">", 50)
+        .andWhere("comment", ">", 50)
+        .whereBetween("updated", [new Date(dayFormat(Date.now() - 604800000)), new Date(dayFormat(Date.now()))])
+        .orderBy("updated", "desc");
+    return res.status(200).json(result)
 }
 
 module.exports = postController;

@@ -5,11 +5,19 @@
                 <h6 class="my-auto font-weight-bold text-primary">
                     Details on {{ chartSetting.show }}
                 </h6>
-                <button @click="toggle" class="btn btn-primary btn-sm">Setting</button>
+                <button @click="toggle" class="btn btn-primary btn-sm">
+                    Setting
+                </button>
             </div>
         </div>
 
-        <div class="card-body" ref="body" width="900" height="450" style="position: relative; z-index: 1; padding: 0">
+        <div
+            class="card-body"
+            ref="body"
+            width="900"
+            height="450"
+            style="position: relative; z-index: 1; padding: 0"
+        >
             <canvas ref="myChart" width="900" height="450"> </canvas>
         </div>
     </div>
@@ -33,16 +41,16 @@ export default {
         },
     },
     */
-    props: ["post", "chartSetting","toggle"],
+    props: ["post", "chartSetting", "toggle"],
     methods: {
         async initData() {
-            let counter =0
+            let counter = 0;
             const sleep = async (s) => {
                 return new Promise((resolve) => setTimeout(resolve, s * 1000));
-            }            
-            while (!this.post.length && counter<10){
-                await sleep(0.5)                
-                counter++
+            };
+            while (!this.post.length && counter < 10) {
+                await sleep(0.5);
+                counter++;
             }
 
             var labels = [];
@@ -107,8 +115,13 @@ export default {
                             {
                                 ticks: {
                                     callback: function (value) {
-                                        return new Date(value).toLocaleString().replace(/\/2021|\/2022/g, "").slice(0, -6); // delete 2021 and second
+                                        return new Date(value)
+                                            .toLocaleString()
+                                            .replace(/\/2021|\/2022/g, "")
+                                            .slice(0, -6); // delete 2021 and second
                                     },
+                                    autoSkip: true,
+                                    maxTicksLimit: 20,
                                 },
                             },
                         ],

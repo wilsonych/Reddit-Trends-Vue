@@ -1,11 +1,7 @@
 <template>
-    <div class="col-xl-6 col-md-12 mb-4">
-        <div class="card shadow h-100 w-100 py-2 border-left-primary">
-            <div class="card-body">
-                <div class="row no-gutters align-items-center h-100">
-                    <canvas ref="dashboardChart"> </canvas>
-                </div>
-            </div>
+    <div class="col-xl-8">
+        <div class="row no-gutters align-items-center h-100">
+            <canvas ref="dashboardChart"> </canvas>
         </div>
     </div>
 </template>
@@ -27,9 +23,18 @@ export default {
                 ],
             };
             const ctx = this.$refs.dashboardChart;
+            //Chart.defaults.global.defaultFontColor = "#fff";
+
             new Chart(ctx, {
                 type: "doughnut",
                 data: data,
+                options: {
+                    elements: {
+                        arc: {
+                            borderWidth: 0,
+                        },
+                    },
+                },
             });
         },
         fetchForum() {

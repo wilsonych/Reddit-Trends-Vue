@@ -98,6 +98,7 @@ export default {
                 },
             };
             apiHandler(option, (response) => {
+                console.log("response",response)
                 this.postTrend = response;
                 this.displayAllPost = true;
                 this.isLoading = false;

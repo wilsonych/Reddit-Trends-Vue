@@ -4,19 +4,18 @@ import axios from "axios";
 
 Vue.use(Vuex);
 
-export const endpoint= Vue.config.devtools ? "http://qstore.info:3001/api" : "http://qstore.info/api"
+//export const endpoint= Vue.config.devtools ? "http://150.230.38.246:3001/api" : "http://150.230.38.246/api"
 
 export default new Vuex.Store({
     state: {
         token: null,
         user: null,
         message: [],
-        timeMeasure:false,
-        endpoint: endpoint
+        timeMeasure: false
     },
     mutations: {
         setToken(state, token) {
-            state.token = token;            
+            state.token = token;
             axios.defaults.headers.Authorization = token
         },
         setUser(state, user) {
@@ -37,15 +36,11 @@ export default new Vuex.Store({
         },
         setMessage(state, data) {
             state.message.push(data);
-            setTimeout(()=>state.message.shift(),10000)
+            setTimeout(() => state.message.shift(), 10000)
         },
-        toggleTimeMeasure(state,data){
-            state.timeMeasure=!state.timeMeasure
-        },
-        setEndpoint(state,endpoint){
-            state.endpoint=endpoint
+        toggleTimeMeasure(state, data) {
+            state.timeMeasure = !state.timeMeasure
         }
-
     },
     getters: {
         isLogined: (state) => !!state.token,

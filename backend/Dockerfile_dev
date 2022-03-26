@@ -6,7 +6,9 @@ COPY package.json ./
 RUN apt update && apt install -y libaio1 libaio-dev
 ADD https://download.oracle.com/otn_software/linux/instantclient/191000/instantclient-basiclite-linux.arm64-19.10.0.0.0dbru.zip /opt/oracle/instantclient.zip
 RUN unzip /opt/oracle/instantclient.zip -d /opt/oracle
+RUN mv /opt/oracle/instantclient* /opt/oracle/instantclient
 RUN echo /opt/oracle/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf && ldconfig
+COPY oracle/wallet/ /opt/oracle/instantclient/network/admin
 
 RUN npm install
 RUN npm install -g nodemon

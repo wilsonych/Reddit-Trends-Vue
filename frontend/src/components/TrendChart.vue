@@ -1,12 +1,11 @@
 <template>
     <div class="card shadow mb-4 w-100">
-        <div class="card-header py-3" width="100%">
+        <div class="card-header py-3" width="100%" v-if="!demo">
             <div class="form-row d-flex justify-content-between">
                 <h6 class="my-auto font-weight-bold text-primary">Trend on {{ chartSetting.show }}</h6>
                 <button @click="toggle" class="btn btn-primary btn-sm">Setting</button>
             </div>
         </div>
-
         <div class="card-body" ref="body" width="900" height="450" style="position: relative; z-index: 1; padding: 0">
             <canvas ref="myChart" width="900" height="450"> </canvas>
         </div>
@@ -22,19 +21,10 @@ export default {
             loading: true,
             chart: "",
             canvas: null,
+            title:{}
         };
     },
-    /**
-    watch: {
-        post: function () {
-            this.initData();
-        },
-        "chartSetting.show"() {
-            this.initData();
-        },
-    },
-     */
-    props: ["post", "chartSetting", "searchPost", "toggle"],
+    props: ["post", "chartSetting", "searchPost", "toggle", "demo"],
 
     methods: {
         buildChart(data) {
@@ -58,6 +48,9 @@ export default {
                                 const d = data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].x;
                                 return new Date(d).toLocaleString();
                             },
+                            label: function (tooltipItems,data) {
+                                return data.datasets[tooltipItems.datasetIndex].title
+                            },
                         },
                     },
 
@@ -71,7 +64,9 @@ export default {
                         xAxes: [
                             {
                                 ticks: {
-                                    callback: (value) => new Date(value).toLocaleString().replace(/\/2021|\/2022/g, ""), //formatDate(new Date(parseInt(value))),
+                                    callback: (value) => new Date(value).toLocaleString(), //formatDate(new Date(parseInt(value))),
+                                    autoSkip: true,
+                                    maxTicksLimit: 20,
                                 },
                             },
                         ],
@@ -91,13 +86,13 @@ export default {
             });
         },
         async initData() {
-            let counter =0
+            let counter = 0;
             const sleep = async (s) => {
                 return new Promise((resolve) => setTimeout(resolve, s * 1000));
-            }            
-            while (!this.post.length && counter<10){
-                await sleep(0.5)                
-                counter++
+            };
+            while (!this.post.length && counter < 10) {
+                await sleep(0.5);
+                counter++;
             }
             const random255 = () => {
                 return Math.floor(Math.random() * 255);
@@ -113,11 +108,14 @@ export default {
                         labels.unshift(row.updated);
                     }
 
+                    if(!this.title[row.id])this.title[row.id] = row.title
+
                     if (!datasets[row.id]) {
                         datasets[row.id] = new Object({
                             label: row.id,
                             backgroundColor: "rgba(255,255, 255,0)",
                             borderColor: randomCol(),
+                            title:row.title,
                             data: [],
                         });
                     } else {
@@ -136,7 +134,12 @@ export default {
                 { labels: [], datasets: [] }
             );
 
-            lineChartData.datasets = Object.values(lineChartData.datasets);
+            lineChartData.datasets = Object.values(lineChartData.datasets).filter((dataset) => {
+                if (dataset.data.length < 2) return false;
+                const firstValue = dataset.data[0].y;
+                const lastValue = dataset.data[dataset.data.length - 1].y;
+                return (lastValue - firstValue) / firstValue > 0.2;
+            });
 
             this.buildChart(lineChartData);
         },

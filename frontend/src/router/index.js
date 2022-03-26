@@ -7,6 +7,7 @@ import Symbols from "@/views/Symbols.vue";
 import User from "@/views/User";
 import Register from "@/views/Register";
 import store from "@/store/index.js";
+import Index from "@/views/Index"
 
 Vue.use(VueRouter);
 
@@ -14,7 +15,7 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: Home,
+        component: Index,
         props: true,
     },
     {

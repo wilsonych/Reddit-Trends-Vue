@@ -1,4 +1,14 @@
-var cacheManager = require('cache-manager');
-var cache = cacheManager.caching({store: 'memory', max: 100, ttl: 3600});
+var cacheManager = require("cache-manager");
+var redisStore = require("cache-manager-redis");
 
-module.exports = cache;
+var redisCache = cacheManager.caching({
+	store: redisStore,
+	url: "redis://redis:6379",
+	ttl: 3600,
+});
+
+redisCache.store.events.on('redisError', function(error) {
+	console.log(error);
+});
+
+module.exports = redisCache;

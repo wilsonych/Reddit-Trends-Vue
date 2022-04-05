@@ -65,7 +65,7 @@ export default {
 
             apiHandler(option, (response) => {           
                 this.$store.commit("setMessage", { type: "", message: response })     
-                this.$router.push({ name: "Home" });
+                this.$router.push({ name: "Dashboard" });
                 this.isLoading = false;
             });
         },

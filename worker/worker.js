@@ -79,7 +79,7 @@ class Worker {
             url: "http://qstore.info/api/user/signin",
             data: {
                 username: "admin",
-                password: "123",
+                password: "wewe200",
             },
         };
         await axios(option)

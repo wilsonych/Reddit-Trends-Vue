@@ -83,7 +83,7 @@ export default {
         handleSearchPost(post) {
             this.$refs.DetailTable.handleSearch(post);
         },
-        fetchAllPostTrend() {
+        fetchAllPostTrend(cache=false) {
             this.isLoading = true;
             this.setting.dateRange.sort();
             const option = {
@@ -95,6 +95,7 @@ export default {
                     forum: this.setting.forum,
                     start: Date.parse(this.setting.dateRange[0]) || Date.parse(new Date(Date.now() - 86400000 * 7)),
                     end: Date.parse(this.setting.dateRange[1]) || Date.parse(new Date()),
+                    cache:cache
                 },
             };
             apiHandler(option, (response) => {
@@ -120,7 +121,7 @@ export default {
                 this.renderChart();
             });
         },
-        fetchPostDetails() {
+        fetchPostDetails(cache=false) {
             this.isLoading = true;
             this.setting.dateRange.sort();
             const option = {
@@ -129,6 +130,7 @@ export default {
                     limit: 2000,
                     start: Date.parse(this.setting.dateRange[0]) || Date.parse(new Date(Date.now() - 86400000 * 7)),
                     end: Date.parse(this.setting.dateRange[1]) || Date.parse(new Date()),
+                    cache:cache
                 },
             };
             apiHandler(option, (response) => {
@@ -141,7 +143,8 @@ export default {
     },
     components: { TrendChart, DetailChart, DetailTable, Setting, Loading,DetailSetting },
     mounted() {
-        this.refresh();
+        this.fetchAllPostTrend(true)
+        this.fetchPostDetails(true)
     },
 };
 </script>

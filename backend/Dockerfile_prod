@@ -1,6 +1,7 @@
 FROM node:12-buster
 WORKDIR /app
-COPY package.json ./
+COPY package*.json ./
+RUN npm install
 
 #ADD oracle /app/oracle
 RUN apt update && apt install -y libaio1 libaio-dev
@@ -8,6 +9,6 @@ ADD https://download.oracle.com/otn_software/linux/instantclient/191000/instantc
 RUN unzip /opt/oracle/instantclient.zip -d /opt/oracle
 RUN echo /opt/oracle/instantclient* > /etc/ld.so.conf.d/oracle-instantclient.conf && ldconfig
 
-RUN npm install
+RUN npm install cache-manager-redis --save
 EXPOSE 3000
 CMD [ "npm","run", "deploy" ]

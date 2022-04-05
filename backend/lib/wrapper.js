@@ -41,7 +41,7 @@ function wrapper(controller) {
                 res.status(200).json(result)
             })
             .catch((err) => {
-                console.log(JSON.stringify(err));
+                console.log(err);
                 res.status(400).json({ message: err.toString() })
             })
     };

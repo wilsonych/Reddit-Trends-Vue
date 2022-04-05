@@ -5,13 +5,14 @@ services:
             context: .
             dockerfile: Dockerfile_dev
         ports:
-            - "3001:3001"
+            - "3003:3001"
         environment:
             LD_LIBRARY_PATH: "/opt/oracle/instantclient_19_10"
             WALLET: "/app/oracle/wallet"
             BACKEND_PORT: "3001"
         volumes:
-            - "/home/ubuntu/reddit/backend:/app"
+            - ".:/app"
+            - "./oracle/wallet:/opt/oracle/instantclient_19_10/network/admin"
             - "/app/node_modules"
             - "/var/run/docker.sock:/var/run/docker.sock"
         entrypoint : [ "npm","run", "start" ]

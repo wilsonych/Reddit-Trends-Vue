@@ -97,7 +97,7 @@ export default {
                 .filter((key) => keys[key] > this.symbolSetting.min)
                 .map((key) => ({ key: key, count: keys[key] }));
         },
-        fetchPostDetails() {
+        fetchPostDetails(cache=false) {
             this.isLoading = true;
             this.symbolSetting.display = false;
             this.symbolSetting.dateRange.sort();
@@ -106,9 +106,10 @@ export default {
                 method: "get",
                 url: "/post/lastest",
                 params: {
-                    start: Date.parse(this.setting.dateRange[0]) || Date.parse(new Date(Date.now() - 86400000 * 7)),
-                    end: Date.parse(this.setting.dateRange[1]) || Date.parse(new Date()),
+                    start: Date.parse(this.symbolSetting.dateRange[0]) || Date.parse(new Date(Date.now() - 86400000 * 7)),
+                    end: Date.parse(this.symbolSetting.dateRange[1]) || Date.parse(new Date()),
                     limit: this.symbolSetting.limit,
+                    cache:cache
                 },
             };
 
@@ -128,7 +129,7 @@ export default {
         Setting,
     },
     mounted() {
-        this.fetchPostDetails();
+        this.fetchPostDetails(true);
     },
 };
 </script>

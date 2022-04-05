@@ -128,5 +128,6 @@ dist
 
 threads.json
 threadsStat.json
-wallet/*
+**/wallet/*
 .env.*
+commit

@@ -55,7 +55,7 @@ export default {
                 const token = "Bearer " + response.token;
                 const user = response.user;
                 this.$store.commit("login", {token:token,user:user});
-                this.$router.push({ name: "Home" });
+                this.$router.push({ name: "Dashboard" });
                 this.isLoading = false;
             })
         },

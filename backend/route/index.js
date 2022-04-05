@@ -7,6 +7,7 @@ const wrapper = require("lib/wrapper");
 const countController = require("controller/count");
 const postController = require("controller/post");
 const userController = require("controller/user");
+const publicDataController = require("controller/publicData")
 
 const status = require("status");
 
@@ -18,7 +19,7 @@ router.all("/status/:endpoint", wrapper(status));
 router.post("/user/:endpoint", wrapper(userController));
 router.put("/user", wrapper(userController));
 
-router.get("/public", postController.public)
+router.all("/public/:endpoint", wrapper(publicDataController))
 
 router.get("/verify", requireToken, (req, res) => {
     console.log(res);

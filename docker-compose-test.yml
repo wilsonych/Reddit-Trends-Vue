@@ -5,7 +5,7 @@ services:
             context: ./backend
             dockerfile: Dockerfile_prod
         ports:
-            - "127.0.0.1:3000:3000"
+            - "0.0.0.0:3000:3000"
         environment:
             LD_LIBRARY_PATH: "/opt/oracle/instantclient_19_10"
             WALLET: "/app/oracle/wallet"
@@ -19,18 +19,6 @@ services:
         links:
             - redis
         container_name: reddit_backend_prod
-    webserver:
-        build:
-            context: ./frontend
-            dockerfile: Dockerfile_prod
-        ports:
-            - "80:80"
-        links:
-            - backend
-        volumes:
-            - "./nginx:/etc/nginx/conf.d"
-        image: webserver:latest
-        container_name: reddit_webserver_prod
     redis:
         restart: always
         container_name: reddit_redis

@@ -1,8 +1,6 @@
 ## Reddit-Trends
 Reddit-Trends is a simple application to visualizer the thread's trends on specified subreddit.<p />
-Example (http://qstore.info/) 
-- username: admin
-- password: 123
+Preview (http://qstore.info/) 
  
  <img src="https://i.imgur.com/jkJVLOG.png" width="700">
  

@@ -16,10 +16,10 @@ function timeUsageFormatter(timeObj) {
     return s
 }
 
-async function apiHandler(option, callback) {
+async function apiHandler(option, callback,exceptionHandler=null) {
     try {
         verifier.atLeast(["url"], option)
-        const url = `${process.env.VUE_APP_ENDPOINT}${option.url}`
+        const url = `${process.env.VUE_APP_ENDPOINT}${option.url}`        
 
         if (!option.method) option.method = "get"
 
@@ -38,6 +38,7 @@ async function apiHandler(option, callback) {
         }
 
     } catch (err) {
+        if(exceptionHandler) return exceptionHandler(err)
         errorHandler(err)
     }
 }

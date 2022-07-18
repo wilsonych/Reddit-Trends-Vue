@@ -1,13 +1,13 @@
 <template>
 	<div class="w-100">
 		<!-- Header-->
-		<header class="bg-dark py-5">
+		<header class="bg-dark py-5" :style="headerProps">
 			<div class="container px-5">
 				<div class="row gx-5 align-items-center justify-content-center">
 					<div class="col-lg-4">
 						<div class="my-5 text-xl-start text-center">
 							<h1 class="display-5 fw-bolder text-white mb-2">Reddit-Trends</h1>
-							<p class="lead fw-normal text-white-50 mb-4">Reddit-Trends is a simple application to visualizer the thread's trends on stock related subreddit.</p>
+							<p class="lead fw-normal text-white mb-4">Reddit-Trends is a simple application to visualizer the thread's trends on stock related subreddit.</p>
 							<div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
 								<router-link to="/dashboard">
 									<a class="btn btn-primary btn-lg px-4 me-sm-3">View more</a>
@@ -50,7 +50,7 @@
 
 		<section class="py-5" id="features">
 			<div class="container px-5">
-				<div class="row gx-5 row-cols-1 row-cols-md-2">
+				<div class="row gx-5 row-cols-1 row-cols-md-2 ">
 					<Status tittle="Post total" target="/count/post" icon="fa-calculator" />
 					<Status tittle="Trend total" target="/count/post_trend" icon="fa-globe-americas" />
 					<Status tittle="Last update" target="/count/last" date icon="fa-clock" />
@@ -67,7 +67,6 @@ import Chart from "@/components/Index/Chart";
 import Docker from "@/components/Home/Docker";
 import TrendChart from "@/components/TrendChart";
 import Status from "@/components/Index/Status";
-import data from "@/data/data.json";
 import apiHandler from "@/lib/apiHandler";
 import Vote from "@/components/Index/Vote";
 import Comment from "@/components/Index/Vote";
@@ -91,6 +90,10 @@ export default {
 			showVote: true,
 			publicVote: [],
 			publicComment: [],
+			headerProps: {
+				backgroundImage: `url(${require('@/../img/bg2.jpeg')})`,
+				backgroundSize: "cover"
+			}
 		};
 	},
 	methods: {

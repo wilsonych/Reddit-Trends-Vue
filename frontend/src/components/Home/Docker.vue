@@ -68,6 +68,7 @@ export default {
     },
     created() {
         const fetchOption = { method: "get", url: "/status/containerInfo" };
+        if(this.$store.state.user!="admin")return
         apiHandler(fetchOption, (result) => {
             this.ids = result.map((con) => {
                 this.$set(this.containers, con.id, {

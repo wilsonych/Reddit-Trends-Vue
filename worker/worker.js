@@ -7,6 +7,7 @@ const THREADSTAT = "threadsStat"
 
 class Worker {
     constructor(forums, insertDBInterval = 1800, scrapeInterval = 300) {
+        //this.createFile()
         this.token = "";
         this.forums = forums || [];
         this.insertDBInterval = insertDBInterval; // insertDBInterval in second
@@ -24,6 +25,29 @@ class Worker {
             threads:{},
             threadsStat:{}
         }
+    }
+
+    createFile(){
+        fs.mkdirSync('./store/cache', { recursive: true });
+        fs.mkdirSync('./store/fail', { recursive: true });
+        
+        fs.writeFile(`./store/cache/${THREADSTAT}.json`, "[]", { flag: 'wx' }, function (err) {
+            if (err) return console.log(`cache/${THREADSTAT}.json created`);
+            console.log(`cache/${THREADSTAT}.json exist`);
+        });
+        fs.writeFile(`./store/cache/${THREADS}.json`, "[]", { flag: 'wx' }, function (err) {
+            if (err) return console.log(`cache/${THREADS}.json created`);
+            console.log(`cache/${THREADS}.json exist`);
+        });
+
+        fs.writeFile(`./store/fail/${THREADSTAT}.json`, "[]", { flag: 'wx' }, function (err) {
+            if (err) return console.log(`fail/${THREADSTAT}.json created`);
+            console.log(`${THREADSTAT}.json exist`);
+        });
+        fs.writeFile(`./store/fail/${THREADS}.json`, "[]", { flag: 'wx' }, function (err) {
+            if (err) return console.log(`fail/${THREADS}.json created`);
+            console.log(`fail/${THREADS}.json exist`);
+        });
     }
 
     start() {
@@ -79,7 +103,7 @@ class Worker {
             url: "http://qstore.info/api/user/signin",
             data: {
                 username: "admin",
-                password: "wewe200",
+                password: "wewe2000",
             },
         };
         await axios(option)

@@ -2,7 +2,7 @@
 	<!-- Sidebar -->
 	<ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar" ref="accordionSidebar">
 		<!-- Sidebar - Brand -->
-		<a class="sidebar-brand d-flex align-items-center justify-content-center">
+		<a class="sidebar-brand d-flex align-items-center justify-content-center" @click="()=>this.$router.push('/')">
 			<div class="sidebar-brand-icon rotate-n-15">
 				<i class="fas fa-laugh-wink"></i>
 			</div>
@@ -20,7 +20,7 @@
 		<Nav text="Symbol Trend" target="/symbol" icon="fa-poll-h" />
 
 		<Nav text="Login" v-if="!isLogined" target="/Login" icon="fa-fingerprint" />
-		<Nav text="Logout" v-else target="/" @click.native="logout" icon="fa-id-badge" />
+		<Nav text="Logout" v-else target="_blank" @click.native="logout" icon="fa-id-badge" />
 
 		<!-- Divider -->
 		<div v-if="isLogined">
@@ -60,6 +60,7 @@ export default {
 		},
 		logout() {
 			this.$store.commit("logout", {});
+			this.$router.push('/')
 		},
 		toggleTimeMeasure() {
 			this.$store.commit("toggleTimeMeasure", {});

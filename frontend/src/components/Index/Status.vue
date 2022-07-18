@@ -1,10 +1,10 @@
 <template>
     <div class="col my-3 h-100">
         <div class="row d-flex justify-content-center">
-            <div class="col-xl-2">
+            <div class="col-2">
                 <i class="fas fa-2x text-gray-300" :class="icon || ''"></i>
             </div>
-            <div class="col-xl-4">
+            <div class="col-4">
                 <div class="row font-weight-bold"><h2 class="h5">{{ tittle }}</h2></div>
                 <div class="row"><p class="mb-0">{{ content }}</p></div>
             </div>

@@ -1,12 +1,12 @@
-const {containerStatus,containerInfo} = require("./docker")
-const {ram}=require("./system")
+const { containerStatus, containerInfo } = require("./docker");
+const { ram } = require("./system");
 
 const status = {
-    get:{
-        containerStatus:containerStatus,
-        containerInfo:containerInfo,
-        ram:ram
-    }
-}
+    get: {
+        containerStatus: containerStatus,
+        containerInfo: containerInfo,
+        ram: ram,
+    },
+};
 
-module.exports = status
+module.exports = status;

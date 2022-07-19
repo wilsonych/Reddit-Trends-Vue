@@ -4,6 +4,7 @@ const LOG = require("./log");
 
 const THREADS = "threads"
 const THREADSTAT = "threadsStat"
+const ENDPOINT = "https://api.qstore.info/api"
 
 class Worker {
     constructor(forums, insertDBInterval = 1800, scrapeInterval = 300) {
@@ -100,10 +101,10 @@ class Worker {
         LOG("Retrieving token from server");
         const option = {
             method: "post",
-            url: "http://qstore.info/api/user/signin",
+            url: ENDPOINT+"/user/signin",
             data: {
-                username: "admin",
-                password: "wewe2000",
+                username: process.env.USERNAME,
+                password: process.env.PASSWORD,
             },
         };
         await axios(option)
@@ -179,7 +180,7 @@ class Worker {
         if (Object.keys(this.data[target]).length == 0) return LOG(`Empty target ${target}`)
         if (!this.token) await this.retrieveToken();
         const data = Object.keys(this.data[target]).map(key=>({...this.data[target][key],id:key}))
-        const url = `http://qstore.info/api/post/${target}`
+        const url = ENDPOINT+`/post/${target}`
         const option = {
             method: "POST",
             url: url,
